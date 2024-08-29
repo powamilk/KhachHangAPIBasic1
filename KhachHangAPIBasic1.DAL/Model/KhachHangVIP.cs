@@ -10,25 +10,22 @@ namespace KhachHangAPIBasic1.DAL.Model
     public class KhachHangVIP : KhachHang
     {
         public float PhanTramGiamGia { get; set; }
-
-        // Constructor không tham số
         public KhachHangVIP() { }
 
-        // Constructor có tham số
         public KhachHangVIP(string hoTen, string maKH, int loaiSanPham, double soLuongDaMua, float phanTramGiamGia)
             : base(hoTen, maKH, loaiSanPham, soLuongDaMua)
         {
             this.PhanTramGiamGia = phanTramGiamGia;
         }
+
         public override double TinhTongChiPhi()
         {
             double tongChiPhi = base.TinhTongChiPhi();
             return tongChiPhi * (1 - PhanTramGiamGia / 100);
         }
-        public override void InThongTin()
+        public override string InThongTin()
         {
-            base.InThongTin();
-            Console.WriteLine($"Phần trăm giảm giá: {PhanTramGiamGia}%");
+            return base.InThongTin() + $"\nPhần trăm giảm giá: {PhanTramGiamGia}%";
         }
     }
 }

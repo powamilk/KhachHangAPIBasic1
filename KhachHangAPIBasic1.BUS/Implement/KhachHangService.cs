@@ -39,14 +39,13 @@ namespace KhachHangAPIBasic1.BUS.Implement
             _khachHangRepo.Add(khachHang);
         }
 
-        public void Xuat()
+        public IEnumerable<string> Xuat()
         {
             var khachHangs = _khachHangRepo.GetAll();
 
             if (!khachHangs.Any())
             {
-                Console.WriteLine("Hiện chưa có khách hàng");
-                return;
+                return new List<string> { "Hiện chưa có khách hàng" };
             }
 
             var sortedList = khachHangs
@@ -54,27 +53,22 @@ namespace KhachHangAPIBasic1.BUS.Implement
                 .ThenByDescending(kh => kh.SoLuongDaMua)
                 .ToList();
 
-            foreach (var khachHang in sortedList)
-            {
-                khachHang.InThongTin();
-                Console.WriteLine();
-            }
+            return sortedList.Select(kh => kh.InThongTin()).ToList();
         }
 
-        public void XoaKhachHang(string maKH)
+        public string XoaKhachHang(string maKH)
         {
             var khachHang = _khachHangRepo.GetById(maKH);
             if (khachHang == null)
             {
-                Console.WriteLine($"Không thể tìm thấy khách hàng với mã {maKH}");
-                return;
+                return $"Không thể tìm thấy khách hàng với mã {maKH}";
             }
 
             _khachHangRepo.Delete(maKH);
-            Console.WriteLine($"Khách hàng với mã {maKH} đã bị xóa.");
+            return $"Khách hàng với mã {maKH} đã bị xóa.";
         }
 
-        public void XuatTheoTongChiPhi(double tuChiPhi, double denChiPhi)
+        public IEnumerable<string> XuatTheoTongChiPhi(double tuChiPhi, double denChiPhi)
         {
             var khachHangs = _khachHangRepo.GetAll();
 
@@ -85,18 +79,13 @@ namespace KhachHangAPIBasic1.BUS.Implement
 
             if (!filteredList.Any())
             {
-                Console.WriteLine($"Không thể tìm thấy khách hàng trong khoảng [{tuChiPhi} ; {denChiPhi}]");
-                return;
+                return new List<string> { $"Không thể tìm thấy khách hàng trong khoảng [{tuChiPhi} ; {denChiPhi}]" };
             }
 
-            foreach (var khachHang in filteredList)
-            {
-                khachHang.InThongTin();
-                Console.WriteLine();
-            }
+            return filteredList.Select(kh => kh.InThongTin()).ToList();
         }
 
-        public void XuatKhachHangChiPhiCaoNhat()
+        public string XuatKhachHangChiPhiCaoNhat()
         {
             var khachHangs = _khachHangRepo.GetAll();
 
@@ -107,17 +96,16 @@ namespace KhachHangAPIBasic1.BUS.Implement
 
             if (khachHang == null)
             {
-                Console.WriteLine("Hiện chưa có khách hàng nào");
-                return;
+                return "Hiện chưa có khách hàng nào";
             }
 
-            khachHang.InThongTin();
+            return khachHang.InThongTin();
         }
 
-        public void ThemKhachHangVIP(KhachHangVIP khachHangVIP)
+        public string ThemKhachHangVIP(KhachHangVIP khachHangVIP)
         {
             _khachHangRepo.Add(khachHangVIP);
-            khachHangVIP.InThongTin();
+            return khachHangVIP.InThongTin();
         }
     }
 }

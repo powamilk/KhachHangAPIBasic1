@@ -8,16 +8,11 @@ namespace KhachHangAPIBasic1.DAL.Entities
 {
     public class KhachHang
     {
-        // Các thuộc tính
         private string hoTen;
         private string maKH;
         private int loaiSanPham;
         private double soLuongDaMua;
-
-        // Constructor không tham số
         public KhachHang() { }
-
-        // Constructor có tham số
         public KhachHang(string hoTen, string maKH, int loaiSanPham, double soLuongDaMua)
         {
             this.hoTen = hoTen;
@@ -25,8 +20,6 @@ namespace KhachHangAPIBasic1.DAL.Entities
             this.loaiSanPham = loaiSanPham;
             this.soLuongDaMua = soLuongDaMua;
         }
-
-        // Getter & Setter
         public string HoTen
         {
             get { return hoTen; }
@@ -62,7 +55,7 @@ namespace KhachHangAPIBasic1.DAL.Entities
 
             return soLuongDaMua * donGia;
         }
-        public virtual void InThongTin()
+        public virtual string InThongTin()
         {
             double tongChiPhi = TinhTongChiPhi();
             double donGia = loaiSanPham switch
@@ -73,12 +66,7 @@ namespace KhachHangAPIBasic1.DAL.Entities
                 _ => 0
             };
 
-            Console.WriteLine($"Họ tên: {hoTen}");
-            Console.WriteLine($"Mã KH: {maKH}");
-            Console.WriteLine($"Loại sản phẩm: {loaiSanPham}");
-            Console.WriteLine($"Số lượng đã mua: {soLuongDaMua}");
-            Console.WriteLine($"Đơn giá: {donGia}");
-            Console.WriteLine($"Tổng chi phí: {tongChiPhi}");
+            return $"Họ tên: {hoTen}\nMã KH: {maKH}\nLoại sản phẩm: {loaiSanPham}\nSố lượng đã mua: {soLuongDaMua}\nĐơn giá: {donGia}\nTổng chi phí: {tongChiPhi}";
         }
     }
 }
