@@ -1,7 +1,6 @@
 ﻿using KhachHangAPIBasic1.BUS.Interface;
 using KhachHangAPIBasic1.DAL.Entities;
 using KhachHangAPIBasic1.DAL.Model;
-using KhachHangAPIBasic1.DAL.Repositories.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,13 +11,6 @@ namespace KhachHangAPIBasic1.BUS.Implement
 {
     public class KhachHangService : IKhachHangService
     {
-        private readonly IKhachHangRepo _khachHangRepo;
-
-        public KhachHangService(IKhachHangRepo khachHangRepo)
-        {
-            _khachHangRepo = khachHangRepo;
-        }
-
         public string Nhap(KhachHang khachHang, List<KhachHang> khachHangs)
         {
             if (string.IsNullOrEmpty(khachHang.HoTen) || string.IsNullOrEmpty(khachHang.MaKH))
@@ -36,15 +28,13 @@ namespace KhachHangAPIBasic1.BUS.Implement
                 throw new ArgumentException("Số lượng đã mua không được âm.");
             }
 
-            _khachHangRepo.Add(khachHang, khachHangs);
+            khachHangs.Add(khachHang);
             return "Nhập khách hàng thành công";
         }
 
-        public IEnumerable<KhachHang> Xuat(List<KhachHang> khachHang)
-        {
-            var khachHangs = _khachHangRepo.GetAll(khachHang);
-
-            if (!khachHangs.Any())
+        public IEnumerable<KhachHang> Xuat(List<KhachHang> khachHangs)
+        {     
+           if (!khachHangs.Any())
             {
                 return new List<KhachHang>();
             }
@@ -58,20 +48,18 @@ namespace KhachHangAPIBasic1.BUS.Implement
 
         public string XoaKhachHang(string maKH, List<KhachHang> khachHangs)
         {
-            var khachHang = _khachHangRepo.GetById(maKH, khachHangs);
+            var khachHang = khachHangs.FirstOrDefault(kh => kh.MaKH == maKH);
             if (khachHang == null)
             {
                 return $"Không thể tìm thấy khách hàng với mã {maKH}";
             }
 
-            _khachHangRepo.Delete(maKH, khachHangs);
+            khachHangs.Remove(khachHang);
             return $"Khách hàng với mã {maKH} đã bị xóa.";
         }
 
-        public IEnumerable<KhachHang> XuatTheoTongChiPhi(double tuChiPhi, double denChiPhi,List<KhachHang> khachHang)
+        public IEnumerable<KhachHang> XuatTheoTongChiPhi(double tuChiPhi, double denChiPhi,List<KhachHang> khachHangs)
         {
-            var khachHangs = _khachHangRepo.GetAll(khachHang);
-
             var filteredList = khachHangs
                 .Where(kh => kh.TinhTongChiPhi() >= tuChiPhi && kh.TinhTongChiPhi() <= denChiPhi)
                 .OrderBy(kh => kh.TinhTongChiPhi())
@@ -87,8 +75,6 @@ namespace KhachHangAPIBasic1.BUS.Implement
 
         public KhachHang XuatKhachHangChiPhiCaoNhat(List<KhachHang> khachHangs)
         {
-            var khachHangList = _khachHangRepo.GetAll(khachHangs);
-
             var khachHang = khachHangs
                 .Where(kh => kh.LoaiSanPham == 1)
                 .OrderByDescending(kh => kh.TinhTongChiPhi())
@@ -99,7 +85,7 @@ namespace KhachHangAPIBasic1.BUS.Implement
 
         public KhachHangVIP ThemKhachHangVIP(KhachHangVIP khachHangVIP, List<KhachHang> khachHangs)
         {
-            _khachHangRepo.Add(khachHangVIP, khachHangs);
+            khachHangs.Add(khachHangVIP);
             return khachHangVIP;
         }
     }
