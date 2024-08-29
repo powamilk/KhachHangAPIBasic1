@@ -10,7 +10,7 @@ namespace KhachHangAPIBasic1.PL.Controllers
     public class KhachHangsController : ControllerBase
     {
         private readonly IKhachHangService _khachHangService;
-
+        static List<KhachHang> _khachHangs = new();
         public KhachHangsController(IKhachHangService khachHangService)
         {
             _khachHangService = khachHangService;
@@ -21,7 +21,7 @@ namespace KhachHangAPIBasic1.PL.Controllers
         {
             try
             {
-                _khachHangService.Nhap(khachHang);
+                _khachHangService.Nhap(khachHang, _khachHangs);
                 return Ok("Nhập khách hàng thành công");
             }
             catch (Exception ex)
@@ -33,36 +33,43 @@ namespace KhachHangAPIBasic1.PL.Controllers
         [HttpGet("xuat")]
         public IActionResult Xuat()
         {
-            _khachHangService.Xuat();
-            return Ok("Xuất danh sách khách hàng thành công");
+            var result = _khachHangService.Xuat(_khachHangs);
+            return Ok(result);
         }
 
-        [HttpDelete("xoakhachhang/{maKH}")]
+        [HttpDelete("xoa-khach-hang/{maKH}")]
         public IActionResult XoaKhachHang(string maKH)
         {
-            _khachHangService.XoaKhachHang(maKH);
+            _khachHangService.XoaKhachHang(maKH, _khachHangs);
             return Ok();
         }
 
-        [HttpGet("xuattheotongchiphi")]
+        [HttpGet("xuat-theo-tong-chi-phi")]
         public IActionResult XuatTheoTongChiPhi(double tuChiPhi, double denChiPhi)
         {
-            _khachHangService.XuatTheoTongChiPhi(tuChiPhi, denChiPhi);
-            return Ok();
+            var result = _khachHangService.XuatTheoTongChiPhi(tuChiPhi, denChiPhi , _khachHangs);
+            return Ok(result);
         }
 
-        [HttpGet("xuatchiphi")]
+        [HttpGet("xuat-chi-phi")]
         public IActionResult XuatKhachHangChiPhiCaoNhat()
         {
-            _khachHangService.XuatKhachHangChiPhiCaoNhat();
-            return Ok();
+            var result = _khachHangService.XuatKhachHangChiPhiCaoNhat(_khachHangs);
+            if(result == null)
+            {
+                return NotFound("Không có thông tin khách hàng có chi phí cáo nhất");
+            }    
+            else
+            {
+                return Ok(result);
+            }    
         }
 
-        [HttpPost("themkhanghangvip")]
+        [HttpPost("them-khang-hang-vip")]
         public IActionResult ThemKhachHangVIP([FromBody] KhachHangVIP khachHangVIP)
         {
-            _khachHangService.ThemKhachHangVIP(khachHangVIP);
-            return Ok("Thêm khách hàng VIP thành công");
+            var result = _khachHangService.ThemKhachHangVIP(khachHangVIP, _khachHangs);
+            return Ok(result);
         }
     }
 }

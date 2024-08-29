@@ -10,11 +10,11 @@ namespace KhachHangAPIBasic1.BUS.Interface
 {
     public interface IKhachHangService
     {
-        void Nhap(KhachHang khachHang);
-        IEnumerable<string> Xuat();
-        string XoaKhachHang(string maKH);
-        IEnumerable<string> XuatTheoTongChiPhi(double tuChiPhi, double denChiPhi);
-        string XuatKhachHangChiPhiCaoNhat();
-        string ThemKhachHangVIP(KhachHangVIP khachHangVIP);
+        void Nhap(KhachHang khachHang, List<KhachHang> khachHangs);
+        IEnumerable<KhachHang> Xuat(List<KhachHang> khachHang);
+        string XoaKhachHang(string maKH, List<KhachHang> khachHangs);
+        IEnumerable<KhachHang> XuatTheoTongChiPhi(double tuChiPhi, double denChiPhi, List<KhachHang> khachHang);
+        KhachHang XuatKhachHangChiPhiCaoNhat(List<KhachHang> khachHangs);
+        KhachHangVIP ThemKhachHangVIP(KhachHangVIP khachHangVIP, List<KhachHang> khachHangs);
     }
 }

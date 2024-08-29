@@ -9,9 +9,9 @@ namespace KhachHangAPIBasic1.DAL.Repositories.Interface
 {
     public interface IKhachHangRepo
     {
-        void Add(KhachHang khachHang);
-        void Delete(string maKH);
-        KhachHang GetById(string maKH);
-        IEnumerable<KhachHang> GetAll();
+        void Add(KhachHang khachHang, List<KhachHang> khachHangs);
+        void Delete(string maKH, List<KhachHang> khachHangs);
+        KhachHang GetById(string maKH, List<KhachHang> khachHangs   );
+        IEnumerable<KhachHang> GetAll(List<KhachHang> khachHangs);
     }
 }

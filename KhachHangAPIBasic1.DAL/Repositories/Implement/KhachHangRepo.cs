@@ -10,35 +10,35 @@ namespace KhachHangAPIBasic1.DAL.Repositories.Implement
 {
         public class KhachHangRepo : IKhachHangRepo
         {
-            private readonly List<KhachHang> _khachHangs;
+           
 
             public KhachHangRepo()
             {
-                _khachHangs = new List<KhachHang>();
+                
             }
 
-            public void Add(KhachHang khachHang)
+            public void Add(KhachHang khachHang, List<KhachHang> khachHangs)
             {
-                _khachHangs.Add(khachHang);
+                khachHangs.Add(khachHang);
             }
 
-            public void Delete(string maKH)
+            public void Delete(string maKH, List<KhachHang> khachHangs)
             {
-                var khachHang = _khachHangs.FirstOrDefault(kh => kh.MaKH == maKH);
+                var khachHang = khachHangs.FirstOrDefault(kh => kh.MaKH == maKH);
                 if (khachHang != null)
                 {
-                    _khachHangs.Remove(khachHang);
+                    khachHangs.Remove(khachHang);
                 }
             }
 
-            public KhachHang GetById(string maKH)
+            public KhachHang GetById(string maKH, List<KhachHang> khachHangs)
             {
-                return _khachHangs.FirstOrDefault(kh => kh.MaKH == maKH);
+                return khachHangs.FirstOrDefault(kh => kh.MaKH == maKH);
             }
 
-            public IEnumerable<KhachHang> GetAll()
+            public IEnumerable<KhachHang> GetAll(List<KhachHang> khachHangs)
             {
-                return _khachHangs;
+                return khachHangs;
             }
         
         }
