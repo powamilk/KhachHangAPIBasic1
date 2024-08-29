@@ -19,15 +19,8 @@ namespace KhachHangAPIBasic1.PL.Controllers
         [HttpPost("nhap")]
         public IActionResult Nhap([FromBody] KhachHang khachHang)
         {
-            try
-            {
-                _khachHangService.Nhap(khachHang, _khachHangs);
-                return Ok("Nhập khách hàng thành công");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+           var result = _khachHangService.Nhap(khachHang, _khachHangs);
+           return Ok(result); 
         }
 
         [HttpGet("xuat")]
@@ -40,8 +33,8 @@ namespace KhachHangAPIBasic1.PL.Controllers
         [HttpDelete("xoa-khach-hang/{maKH}")]
         public IActionResult XoaKhachHang(string maKH)
         {
-            _khachHangService.XoaKhachHang(maKH, _khachHangs);
-            return Ok();
+            var result = _khachHangService.XoaKhachHang(maKH, _khachHangs);
+            return Ok(result);
         }
 
         [HttpGet("xuat-theo-tong-chi-phi")]

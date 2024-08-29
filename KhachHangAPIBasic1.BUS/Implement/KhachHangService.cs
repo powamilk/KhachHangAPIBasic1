@@ -19,7 +19,7 @@ namespace KhachHangAPIBasic1.BUS.Implement
             _khachHangRepo = khachHangRepo;
         }
 
-        public void Nhap(KhachHang khachHang, List<KhachHang> khachHangs)
+        public string Nhap(KhachHang khachHang, List<KhachHang> khachHangs)
         {
             if (string.IsNullOrEmpty(khachHang.HoTen) || string.IsNullOrEmpty(khachHang.MaKH))
             {
@@ -37,6 +37,7 @@ namespace KhachHangAPIBasic1.BUS.Implement
             }
 
             _khachHangRepo.Add(khachHang, khachHangs);
+            return "Nhập khách hàng thành công";
         }
 
         public IEnumerable<KhachHang> Xuat(List<KhachHang> khachHang)
